@@ -7,8 +7,8 @@ namespace DaleranGames.SquadronLeader
     public class Ship : MonoBehaviour
     {
         [SerializeField]
-        protected ShipClass shipType;
-        public ShipClass Type { get { return shipType; } } 
+        protected ShipClass _class;
+        public ShipClass Class { get { return _class; } } 
 
         // Use this for initialization
         void Start()

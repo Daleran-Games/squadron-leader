@@ -44,3 +44,15 @@ TagManager:
   - name: Background
     uniqueID: 4033269295
     locked: 0
+  - name: Props
+    uniqueID: 3438120233
+    locked: 0
+  - name: Capitals
+    uniqueID: 1140760447
+    locked: 0
+  - name: Fighters
+    uniqueID: 1748504101
+    locked: 0
+  - name: Foreground
+    uniqueID: 3294229533
+    locked: 0
