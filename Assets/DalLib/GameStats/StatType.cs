@@ -51,6 +51,11 @@ namespace DaleranGames.GameStats
             _description = description;
         }
 
+        public string ToStringAll()
+        {
+            return Value + " " + Name + " - " + Description + "\n" + Icon;
+        }
+
 # endregion
 
     }

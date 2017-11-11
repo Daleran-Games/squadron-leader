@@ -20,31 +20,30 @@ namespace DaleranGames.GameStats
 
         [SerializeField]
         bool multiplier;
-        public bool Multiplier { get { return multiplier; } } 
+        public bool Multiplier { get { return multiplier; } }
 
         [SerializeField]
+        sbyte priority;
+        public sbyte Priority { get { return priority; } }
+
+        [SerializeField]
+        [TextArea(2,5)]
         string description;
         public string Description { get { return description; } }
 
-        public Modifier (StatType type, float value, bool multiplier)
+        public Modifier (StatType type, float value, bool multiplier = false, sbyte priority = 0, string description = "")
         {
             this.type = type;
             this.value = value;
             this.multiplier = multiplier;
-            description = "";
-        }
-
-        public Modifier(StatType type, float value, bool multiplier, string description)
-        {
-            this.type = type;
-            this.value = value;
-            this.multiplier = multiplier;
+            this.priority = priority;
             this.description = description;
         }
 
+
         public static Modifier ParseCSV(List<string> csvLine, int startingIndex)
         {
-            return new Modifier(Enumeration.FromName<StatType>(csvLine[startingIndex]),float.Parse(csvLine[startingIndex+1]),Boolean.Parse(csvLine[startingIndex + 2]),csvLine[startingIndex+3]);            
+            return new Modifier(Enumeration.FromName<StatType>(csvLine[startingIndex]),float.Parse(csvLine[startingIndex+1]),Boolean.Parse(csvLine[startingIndex + 2]),SByte.Parse(csvLine[startingIndex+3]),csvLine[startingIndex+4]);            
         }
 
         public static List<Modifier> ParseCSVList (List<string> csvList)
@@ -71,17 +70,53 @@ namespace DaleranGames.GameStats
             return ToString();
         }
 
-        public string Info
+        public string FormatedValue(bool color = false, bool withPlus = false)
         {
-            get
-            {
-                if (Value > 0)
-                    return Type.ToString() +": "+("+" + Value.ToString()).ToPositiveColor() + Type.Icon +" "+ Description.ToPositiveColor();
-                else if (Value < 0)
-                    return Type.ToString() + ": " + Value.ToString().ToNegativeColor() + Type.Icon +" "+ Description.ToNegativeColor();
-                else
-                    return Type.ToString() + ": " + Value.ToString() + Type.Icon + " " + Description;
-            }
+            string val = Value.ToString();
+
+            if (multiplier)
+               val = (Value*100f).ToString()+ "%";
+            else
+               val = Value.ToString();
+
+            if (color)
+                val = TextUtilities.ColorBasedOnNumber(val, Value, withPlus);
+
+            return val;
+        }
+
+        public string FormatedDescription (bool color = false)
+        {
+            string desc = Description;
+
+            if (color)
+                desc = TextUtilities.ColorBasedOnNumber(desc,Value);
+
+            return desc;
+        }
+
+        public string ToDisplayString(bool showTypeName = true, bool showIcon=true, bool showDescription = false, bool colorBasedOnValue = false, bool withPlusSign = false)
+        {
+            string output = FormatedValue(colorBasedOnValue, withPlusSign);
+
+            if (showTypeName)
+                output = Type.ToString() + ": " + output;
+
+            if (showIcon)
+                output += Type.Icon;
+
+            if (showDescription)
+                output += " " + FormatedDescription(colorBasedOnValue);
+
+            return output;
+        }
+
+        public string ToSimpleString()
+        {
+            if (multiplier)
+                return (Value * 100f).ToString() + "% " + Description;
+            else
+                return Value.ToString() +" "+ Description;
         }
 
         public bool Equals(Modifier other)

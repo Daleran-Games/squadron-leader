@@ -9,9 +9,6 @@ namespace DaleranGames.GameStats
     [System.Serializable]
     public class StatCollection : IStatCollection<StatType>
     {
-
-        //protected List<Modifier> debugModifiers;
-
         protected Dictionary<StatType, List<Modifier>> modifiers;
         protected Dictionary<StatType, float> totals;
 
@@ -25,7 +22,6 @@ namespace DaleranGames.GameStats
         {
             modifiers = new Dictionary<StatType, List<Modifier>>();
             totals = new Dictionary<StatType, float>();
-            //debugModifiers = new List<Modifier>();
         }
 
         public virtual float this[StatType statType]
@@ -81,8 +77,6 @@ namespace DaleranGames.GameStats
                 }
                 modifiers[mod.Type].Add(mod);
                 totals[mod.Type] = RecalculateStatType(mod.Type);
-                //debugModifiers.Add(mod);
-
                 RaiseStatModified(this, mod.Type);
             }
         }
@@ -103,8 +97,6 @@ namespace DaleranGames.GameStats
                 {
                     modifiers[mod.Type].Remove(mod);
                     totals[mod.Type] -= mod.Value;
-                    //debugModifiers.Remove(mod);
-
                     RaiseStatModified(this, mod.Type);
                 }
             }
@@ -138,7 +130,6 @@ namespace DaleranGames.GameStats
         {
             modifiers.Clear();
             totals.Clear();
-            //debugModifiers.Clear();
         }
 
         protected virtual void RaiseStatModified(IStatCollection<StatType> stats, StatType statType)
@@ -151,7 +142,7 @@ namespace DaleranGames.GameStats
         {
             List<Modifier> mods = modifiers[type];
             float baseValue = 0f;
-            float multiplier = 0f;
+            float multiplier = 1f;
 
 
             for (int i = 0; i < mods.Count; i++)

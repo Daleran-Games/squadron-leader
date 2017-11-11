@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-namespace DaleranGames.TBSFramework
+namespace DaleranGames
 {
-    [CustomPropertyDrawer(typeof(Enumeration))]
+    [CustomPropertyDrawer(typeof(Enumeration),false)]
     public class EnumerationDrawer : PropertyDrawer
     {
         SerializedProperty t;
@@ -16,7 +16,7 @@ namespace DaleranGames.TBSFramework
             //get the name before it's gone
             name = property.displayName;
 
-            t = property.FindPropertyRelative("_displayName");
+            t = property.FindPropertyRelative("_name");
 
             Rect contentPosition = EditorGUI.PrefixLabel(position, new GUIContent(name));
 

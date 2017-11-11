@@ -2,7 +2,7 @@
 {
     public static class TextUtilities
     {
-        public static string ColorBasedOnNumber(string text, int number, bool withPlus)
+        public static string ColorBasedOnNumber(string text, int number, bool withPlus = false)
         {
             if (number > 0)
             {
@@ -17,7 +17,7 @@
                 return "<style=\"NegColor\">" + text + "</style>";
         }
 
-        public static string ColorBasedOnNumber(string text, float number, bool withPlus)
+        public static string ColorBasedOnNumber(string text, float number, bool withPlus = false)
         {
             if (number > 0)
             {

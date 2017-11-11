@@ -16,7 +16,7 @@ namespace DaleranGames.Effects
         }
 
         [SerializeField]
-        Vector3 offset = new Vector3(0f, 0f, -10f);
+        protected Vector3 offset = new Vector3(0f, 0f, -10f);
 
         // Update is called once per frame
         protected override void LateUpdate()
@@ -25,7 +25,7 @@ namespace DaleranGames.Effects
             base.LateUpdate();
         }
 
-        void TrackTarget()
+        protected virtual void TrackTarget()
         {
             if (target != null)
                 transform.position = target.transform.position + offset;
